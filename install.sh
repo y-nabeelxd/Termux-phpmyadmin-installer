@@ -7,7 +7,6 @@ PHP_INI="$PREFIX/etc/php/php.ini"
 PMA_PID_FILE="$HOME/.pma_pid"
 # ---------------------
 
-# --- Check MariaDB Installation ---
 if ! dpkg -s mariadb &> /dev/null; then
     echo "Sorry, MariaDB is not installed."
     echo "Visit: https://github.com/y-nabeelxd/MySQL-MariaDB-Termux-Installer"
@@ -18,15 +17,13 @@ fi
 
 apt install -y php phpmyadmin
 
-# ... (MariaDB root password prompt - same as before)
-
 export MYSQL_PWD="$MARIADB_ROOT_PASSWORD"
 cat << EOF > "$PMA_DIR/config.inc.php"
 <?php
 \$i++;
 
 /* Authentication type */
-\$cfg['Servers'][$i]['auth_type'] = 'config'; // Use config authentication
+\$cfg['Servers'][$i]['auth_type'] = 'config';
 
 /* Server parameters */
 \$cfg['Servers'][$i]['host'] = 'localhost:3306';
@@ -50,11 +47,9 @@ EOF
 
 unset MYSQL_PWD
 
-# --- PHP Configuration ---
 mkdir -p $(dirname "$PHP_INI")
 echo 'error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED' > "$PHP_INI"
 
-# --- Determine the correct bin directory ---
 if [ -w "$PREFIX/bin" ]; then
   BIN_DIR="$PREFIX/bin"
 else
@@ -126,7 +121,8 @@ fi
 echo "alias pma='$BIN_DIR/pma'" >> "$CONFIG_FILE"
 source "$CONFIG_FILE"
 
+clear
 echo "phpMyAdmin installation complete."
 echo "Run 'pma start' to start the server."
 echo "Run 'pma stop' to stop the server."
-
+sleep 3
