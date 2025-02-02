@@ -8,7 +8,7 @@ PMA_PID_FILE="$HOME/.pma_pid"
 # ---------------------
 
 # --- Check MariaDB Installation ---
-if ! dpkg -s mariadb-server &> /dev/null; then
+if ! dpkg -s mariadb &> /dev/null; then
     echo "Sorry, MariaDB is not installed."
     echo "Visit: https://github.com/y-nabeelxd/MySQL-MariaDB-Termux-Installer"
     exit 1
